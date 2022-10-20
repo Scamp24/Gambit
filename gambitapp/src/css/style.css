@@ -88,7 +88,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
   display: inline-block;
-  background-image: linear-gradient(to right, purple, purple);
+  background-image: linear-gradient(to right, beige, purple);
   -webkit-background-clip: text;
   color: transparent;
   letter-spacing: .2rem;
@@ -220,9 +220,9 @@ body {
 .form__radio-input:checked ~ .form__radio-label .form__radio-button::after {
   opacity: 1; }
 
-.section-book {
+.section-login {
   padding: 15rem 0;
-  background-image: linear-gradient(to right bottom, purple, purple); }
+  background-image: linear-gradient(to right bottom, beige, purple); }
   @media only screen and (max-width: 56.25em) {
-    .section-book {
+    .section-login {
       padding: 10rem 0; } }
