@@ -1,48 +1,29 @@
-import React, {useEffect, useState} from "react";
-import "./loginform.css"
+import "../../css/style.css"
 
 const LoginForm = () => {
-
-    const [popupStyle, showPopup] = useState("hide")
-
-    const login = () => {
-        var username = document.getElementById('login_field').value;
-        var password = document.getElementById('password_field').value;
-
-        
-    }
-
-    const popup = () => {
-        showPopup("login-popup")
-        setTimeout(() => showPopup("hide"), 3000)
-    }
-
-    const onSuccess = e => {
-        //alert("User signed in")
-        console.log(e)
-    }
-
-    const onFailure = e => {
-        alert("User sign in Failed")
-        console.log(e)
-    }
-
-
     return (
-        <div className="cover">
-            <h1>Login</h1>
-            <input id="login_field" type="text" placeholder="username" />
-            <input id="password_field" type="password" placeholder="password" />
+        <section class="section-book">
+            <div class="row">
+                <div class="book">
+                    <div class="book__form">
+                        <form action="#" class="form">
 
-            <div className="login-btn" onClick={login}>Login</div>
 
+                            <div class="form__group">
+                                <input type="text" class="form__input" placeholder="Full name" id="name" required />
+                                <label for="name" class="form__label">Full name</label>
+                            </div>
 
-            <div className={popupStyle}>
-                <h3>Login Failed</h3>
-                <p>Username or password incorrect</p>
+                            <div class="form__group">
+                                <input type="email" class="form__input" placeholder="Email address" id="email" required />
+                                <label for="email" class="form__label">Email address</label>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
-            
-        </div>
+        </section>
     )
 }
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
 import {useState, useEffect} from 'react';
+import LoginForm from './components/login/LoginForm';
 
 const App = () => {
 
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
+  /*useEffect(() => {
     fetch('http://localhost:8080/messages')
     .then(response => response.json())
     .then(
@@ -23,9 +21,12 @@ const App = () => {
         setError(error);
       }
     )
-  }, [])
+  }, [])*/
   return (
     <div className="App">
+      <LoginForm />
+    </div>
+    /*<div className="App">
       <h1>Here's Your messages</h1>
        <ul>
         {items && items.map(item => (
@@ -35,7 +36,7 @@ const App = () => {
           </div>
         ))}
       </ul>
-    </div>
+    </div>*/
   )
 }
 

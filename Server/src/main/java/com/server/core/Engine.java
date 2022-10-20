@@ -32,7 +32,7 @@ public class Engine {
 	
 	/**
 	 * Starts the engine
-	 * @throws ExecutionException if a service exception occurred
+	 * @throws ExecutionException if a service exception occurred 
 	 */
 	public void start() throws ExecutionException {
 		logger.info("Starting engine...");
