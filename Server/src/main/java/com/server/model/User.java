@@ -60,4 +60,21 @@ public class User {
 		this.puuid = puuid;
 	}
 	
+	/**
+	 * Gets the users login credentials
+	 * @return {@code credentials}
+	 */
+	public Credentials getCredentials() {
+		return credentials;
+	}
+	
+
+	/**
+	 * Assigns new login credentials
+	 * @param credentials the user email and password
+	 */
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
+	}
+	
  }
