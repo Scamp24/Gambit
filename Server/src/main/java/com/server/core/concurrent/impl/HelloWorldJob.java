@@ -9,6 +9,7 @@ import com.server.core.concurrent.Job;
  */
 public class HelloWorldJob extends Job {
 
+	private int count = 3;
 	/**
 	 * Creates a hello world task with a delay of 10 cycles
 	 */
@@ -19,5 +20,10 @@ public class HelloWorldJob extends Job {
 	@Override
 	public void run() {
 		System.out.println("Hello World!");
+		
+		//Will cycle the hello world job task 3 times before stopping
+		if(--count <= 0) {
+			stop();
+		}
 	}
 }
