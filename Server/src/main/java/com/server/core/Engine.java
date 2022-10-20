@@ -1,5 +1,6 @@
 package com.server.core;
 
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import com.server.core.concurrent.JobScheduler;
@@ -27,14 +28,21 @@ public class Engine {
 	/**
 	 * Private constructor to prevent instantiation
 	 */
-	private Engine() {
+	private Engine() {}
+	
+	/**
+	 * Starts the engine
+	 * @throws ExecutionException if a service exception occurred
+	 */
+	public void start() throws ExecutionException {
+		logger.info("Starting engine...");
 		jobService.schedule(new HelloWorldJob());
 	}
 	
-	public void start() {
-		logger.info("Starting engine...");
-	}
-	
+	/**
+	 * Gets the {@link Engine} instance
+	 * @return {@code INSTANCE}
+	 */
 	public static Engine getInstance() {
 		return INSTANCE;
 	}

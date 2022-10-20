@@ -1,5 +1,6 @@
 package com.server;
 
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,11 @@ public class Server {
 	
 	public static void main(String[] args) {
 		logger.info("Initializing gambit server...");
-		Engine.getInstance().start();
+		try {
+			Engine.getInstance().start();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
 		SpringApplication.run(Server.class, args);
 	}
 
