@@ -145,6 +145,12 @@ body {
 .u-margin-top-huge {
   margin-top: 10rem !important; }
 
+.form__login {
+  max-width: 40vw;
+  background-color: #edece9 !important; }
+  .form__login-input-group {
+    margin-bottom: 2rem; }
+
 .form__group:not(:last-child) {
   margin-bottom: 2rem; }
 
