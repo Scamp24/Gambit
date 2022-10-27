@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 import {useState, useEffect} from 'react';
 import LoginForm from './components/login/LoginForm';
 
