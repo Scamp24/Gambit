@@ -32,10 +32,25 @@ export class LoginForm extends Component {
 
         var email = this.state.email;
         var password = this.state.password;
-   
-        fetch('http://localhost:8080/login', {
+        /*fetch('http://localhost:8080/login', {
             method: 'POST',
-            body: email, password,
+            data: { email: this.state.email, password: this.state.password}
+        });*/
+        fetch('http://localhost:8080/login', {  
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'charset': 'utf-8',
+        },
+        body: JSON.stringify({
+            email: this.state.email,
+            password: this.state.password,
+        })}).then((response) => response.json())
+        .then((responseData) => {
+            console.log(responseData);
+        }).catch((error) => {
+            console.log("Error");
         });
         
         console.log({credentails: email, password});
