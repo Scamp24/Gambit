@@ -5,10 +5,16 @@ import java.util.logging.Logger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.server.core.Engine;
 
 @SpringBootApplication
+@CrossOrigin(maxAge = 3600)
+@Configuration
+@EnableWebMvc
 public class Server {
 
 	/**

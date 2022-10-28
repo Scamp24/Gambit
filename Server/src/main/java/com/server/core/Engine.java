@@ -36,7 +36,7 @@ public class Engine {
 	 */
 	public void start() throws ExecutionException {
 		logger.info("Starting engine...");
-		jobService.schedule(new HelloWorldJob());
+		//jobService.schedule(new HelloWorldJob());
 	}
 	
 	/**
