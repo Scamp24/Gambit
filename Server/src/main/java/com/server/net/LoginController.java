@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.server.core.Engine;
+import com.server.net.postgre.PostgreSQLJDBC;
 
 /**
- * The {@code LoginHandler} handles all in-bound login requests from the main sign in page in the gambit react application through the web
+ * The {@code LoginController} controls all in-bound login requests from the main sign in page in the gambit react application through the web
  * @author Tony Erazo
  *
  */
 @RestController
-public class LoginHandler {
+public class LoginController {
 
 	@GetMapping("/")
     public String index() {
@@ -35,8 +37,24 @@ public class LoginHandler {
 		String password = json.get("password").asText();
 		
 		System.out.println("E-mail: " + email + " Password: " + password);
-		//TODO we will return a string to the dashboard url path if login is successful
+
+		PostgreSQLJDBC database = Engine.getInstance().getDatabase();
+		String dbEmail = database.getValue(email, "email");
+		String dbPassword = database.getValue(password, "email");
 		
-		//return "/dashboard";
+		if(dbEmail != null && dbPassword != null) {
+			
+			//Credentials are verified here
+			if(email.equals(dbEmail) && password.equals(dbPassword)) {
+				//Accepts login here
+				//return "/dashboard";
+				System.out.println("login accepted");
+			}
+		}
+		
+		System.out.println("Invalid user/pass");
+		
+		//We assume the database values are not equal to the input values
+		//Send them a message regarding an invalid attempt
 	}
 }

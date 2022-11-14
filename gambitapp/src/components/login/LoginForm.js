@@ -9,10 +9,12 @@ export class LoginForm extends Component {
         super(props)
         this.state ={
             email: "",
-            password: ""
+            password: "",
+            //errorMessage: ""
         };
         this.updateEmailValue = this.updateEmailValue.bind(this);
         this.updatePasswordValue = this.updatePasswordValue.bind(this);
+        //this.errorMessage = this.setErrorMessage.bind(this);
         this.sendLogin = this.sendLogin.bind(this);
     }
 
@@ -26,12 +28,18 @@ export class LoginForm extends Component {
         //console.log('password ', this.state);
     }
 
+   // setErrorMessage(e){
+        //this.state.errorMessage = e.target.value;
+        //console.log('password ', this.state);
+   // }
+
 
     sendLogin() {
         console.log("Sending login data...");
 
         var email = this.state.email;
         var password = this.state.password;
+        //var errorMessage = this.state.errorMessage;
         /*fetch('http://localhost:8080/login', {
             method: 'POST',
             data: { email: this.state.email, password: this.state.password}
@@ -46,6 +54,7 @@ export class LoginForm extends Component {
         body: JSON.stringify({
             email: this.state.email,
             password: this.state.password,
+            errorMessage: this.state.errorMessage,
         })}).then((response) => response.json())
         .then((responseData) => {
             console.log(responseData);
@@ -53,7 +62,7 @@ export class LoginForm extends Component {
             console.log("Error");
         });
         
-        console.log({credentails: email, password});
+        console.log({credentails: email, password, errorMessage});
     }
 
     render() {
