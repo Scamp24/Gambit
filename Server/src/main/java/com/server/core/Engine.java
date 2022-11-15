@@ -9,8 +9,8 @@ import com.server.net.postgre.PostgreSQLJDBC;
 
 /**
  * The engine class is responsible for initializing the servers core
- * @author Tony Erazo
- *
+ * @author Tony Erazo 
+ *	Erick (with a 'c' 'k') is here
  */
 public class Engine {
 
