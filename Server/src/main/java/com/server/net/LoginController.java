@@ -3,6 +3,7 @@ package com.server.net;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,15 +24,15 @@ public class LoginController {
 
 	@GetMapping("/")
     public String index() {
-          return "login";
+          return "/login";
     }
 	
 	@CrossOrigin
 	//@GetMapping(path="/login", produces=MediaType.TEXT_PLAIN_VALUE)
-	//@PostMapping(path="/login")
+	@PostMapping(path="/login")
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void login(@RequestBody ObjectNode json) {
+	public String login(@RequestBody ObjectNode json) {
 		System.out.println("logging in...");
 		String email = json.get("email").asText();
 		String password = json.get("password").asText();
@@ -47,13 +48,13 @@ public class LoginController {
 			//Credentials are verified here
 			if(email.equals(dbEmail) && password.equals(dbPassword)) {
 				//Accepts login here
-				//return "/dashboard";
 				System.out.println("login accepted");
+				return "/dashboard";
 			}
 		}
 		
 		System.out.println("Invalid user/pass");
-		
+		return "redirect:/login?lerror=1";
 		//We assume the database values are not equal to the input values
 		//Send them a message regarding an invalid attempt
 	}
