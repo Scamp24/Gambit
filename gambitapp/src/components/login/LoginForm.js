@@ -63,7 +63,7 @@ export class LoginForm extends Component {
         }).catch((error) => {
             console.log("Error " . error);
         });
-        
+        //erik was here
         console.log({credentails: email, password});
     }
 
