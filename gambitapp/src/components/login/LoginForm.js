@@ -10,11 +10,9 @@ export class LoginForm extends Component {
         this.state ={
             email: "",
             password: "",
-            //errorMessage: ""
         };
         this.updateEmailValue = this.updateEmailValue.bind(this);
         this.updatePasswordValue = this.updatePasswordValue.bind(this);
-        //this.errorMessage = this.setErrorMessage.bind(this);
         this.sendLogin = this.sendLogin.bind(this);
     }
 
@@ -28,17 +26,21 @@ export class LoginForm extends Component {
         //console.log('password ', this.state);
     }
 
-   // setErrorMessage(e){
-        //this.state.errorMessage = e.target.value;
-        //console.log('password ', this.state);
-   // }
-
 
     sendLogin() {
         console.log("Sending login data...");
 
         var email = this.state.email;
         var password = this.state.password;
+
+        const urlParams = new URL(window.location.href);
+
+        //var errorMessage = ;
+
+        if(urlParams.searchParams.has('error')) {
+            var element = document.getElementById("login_error");
+            element.classList.remove('d-none');
+        }
         //var errorMessage = this.state.errorMessage;
         /*fetch('http://localhost:8080/login', {
             method: 'POST',
@@ -54,15 +56,15 @@ export class LoginForm extends Component {
         body: JSON.stringify({
             email: this.state.email,
             password: this.state.password,
-            errorMessage: this.state.errorMessage,
+            //errorMessage: this.state.errorMessage,
         })}).then((response) => response.json())
         .then((responseData) => {
             console.log(responseData);
         }).catch((error) => {
-            console.log("Error");
+            console.log("Error " . error);
         });
         
-        console.log({credentails: email, password, errorMessage});
+        console.log({credentails: email, password});
     }
 
     render() {
@@ -80,6 +82,7 @@ export class LoginForm extends Component {
                             <InputGroup.Text id="password_field" >Password</InputGroup.Text>
                             <Form.Control placeholder="password" aria-label="password" aria-describedby="password" name="password" type="password" onChange={e => this.updatePasswordValue(e)}/>
                         </InputGroup>
+                        <Form.Text id="login_error" className="d-none">Invalid username or password please try again.</Form.Text>
                         <Button variant="success" onClick={this.sendLogin}>Login</Button>{' '}
                     </Form>
                 </Row>
