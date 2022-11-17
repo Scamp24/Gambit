@@ -20,7 +20,7 @@ export class LoginForm extends Component {
         this.state.email = e.target.value;
         //console.log('email ', this.state);
     }
-
+//Supp buddy
     updatePasswordValue(e){
         this.state.password = e.target.value;
         //console.log('password ', this.state);
@@ -64,6 +64,7 @@ export class LoginForm extends Component {
             console.log("Error " . error);
         });
         //erik was here
+        // one piece is fake
         console.log({credentails: email, password});
     }
 
