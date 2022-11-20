@@ -52,16 +52,20 @@ export class LoginForm extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'charset': 'utf-8',
-        },
-        body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password,
-            //errorMessage: this.state.errorMessage,
-        })}).then((response) => response.json())
+            },
+            body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password,
+                //errorMessage: this.state.errorMessage,
+            })
+        }).then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData);
+            console.log("Response" . responseData);
         }).catch((error) => {
-            console.log("Error " . error);
+
+            console.log("Error" . error);
+            var element = document.getElementById("login_error");
+            element.classList.remove('d-none');
         });
         //erik was here
         // one piece is fake
@@ -83,9 +87,12 @@ export class LoginForm extends Component {
                             <InputGroup.Text id="password_field" >Password</InputGroup.Text>
                             <Form.Control placeholder="password" aria-label="password" aria-describedby="password" name="password" type="password" onChange={e => this.updatePasswordValue(e)}/>
                         </InputGroup>
-                        <Form.Text id="login_error" className="d-none">Invalid username or password please try again.</Form.Text>
+                        
                         <Button variant="success" onClick={this.sendLogin}>Login</Button>{' '}
                     </Form>
+                </Row>
+                <Row>
+                <Form.Text id="login_error" className="d-none">Invalid username or password please try again.</Form.Text>
                 </Row>
             </Container>
         

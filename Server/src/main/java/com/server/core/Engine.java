@@ -40,7 +40,7 @@ public class Engine {
 	public void start() throws ExecutionException {
 		logger.info("Starting engine...");
 		databaseService.connect();
-		//databaseService.setEmail("wow", "wow@aol.com");
+		databaseService.setEmail("wow", "wow@aol.com");
 		//System.out.println(databaseService.getValue("wow", "email"));
 		//jobService.schedule(new HelloWorldJob());
 	}

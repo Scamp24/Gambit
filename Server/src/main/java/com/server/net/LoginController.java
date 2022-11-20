@@ -1,13 +1,16 @@
 package com.server.net;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -20,19 +23,19 @@ import com.server.net.postgre.PostgreSQLJDBC;
  *
  */
 @RestController
+@Controller
 public class LoginController {
 
-	@GetMapping("/")
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-          return "/login";
+          return "index";
     }
 	
 	@CrossOrigin
 	//@GetMapping(path="/login", produces=MediaType.TEXT_PLAIN_VALUE)
 	@PostMapping(path="/login")
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public String login(@RequestBody ObjectNode json) {
+	public void login(@RequestBody ObjectNode json, HttpServletResponse response) {
 		System.out.println("logging in...");
 		String email = json.get("email").asText();
 		String password = json.get("password").asText();
@@ -41,20 +44,27 @@ public class LoginController {
 
 		PostgreSQLJDBC database = Engine.getInstance().getDatabase();
 		String dbEmail = database.getValue(email, "email");
-		String dbPassword = database.getValue(password, "email");
+		String dbPassword = database.getValue(email, "password");
 		
+		System.out.println("db email: " + dbEmail + " dbPass: " + dbPassword);
 		if(dbEmail != null && dbPassword != null) {
 			
 			//Credentials are verified here
 			if(email.equals(dbEmail) && password.equals(dbPassword)) {
 				//Accepts login here
 				System.out.println("login accepted");
-				return "/dashboard";
+				response.setStatus(HttpServletResponse.SC_ACCEPTED);
+				try {
+					response.sendRedirect("/dashboard");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
 		System.out.println("Invalid user/pass");
-		return "redirect:/login?lerror=1";
+		
 		//We assume the database values are not equal to the input values
 		//Send them a message regarding an invalid attempt
 	}

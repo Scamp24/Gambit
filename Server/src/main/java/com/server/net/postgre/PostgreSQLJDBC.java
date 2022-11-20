@@ -33,26 +33,29 @@ public class PostgreSQLJDBC {
 	/**
 	 * Gets a specified value from the user
 	 * @param email the email of the account
-	 * @param value the value attempting to access
+	 * @param type the type attempting to access
 	 * @return {@code value}
 	 */
-	public String getValue(String email, String value) {
+	public String getValue(String email, String type) {
 		if(connection != null) {
 			try {
 				Class.forName("org.postgresql.Driver");
 				//Statement statement = connection.createStatement();
 				
-				String sql = "SELECT " + value
-						+ " FROM usr_table" + " WHERE email = ?";
+				String sql = "SELECT " + type
+						+ " FROM usr_table" + " WHERE email = \'" + email + "\';";
 				
 				System.out.println(sql);
-				PreparedStatement statement = connection.prepareStatement(sql);
-				statement.setString(1, email);
+				Statement statement = connection.createStatement();
+				//PreparedStatement statement = connection.prepareStatement(sql);
+				//statement.setString(1, email);
 				
-				ResultSet result = statement.executeQuery();
+				ResultSet result = statement.executeQuery(sql);
 				
-				if(result.next())
+				if(result.next()) {
+					System.out.println("Found result!");
 					return result.getString(1);
+				}
 				
 				result.close();
 				statement.close();
@@ -64,6 +67,7 @@ public class PostgreSQLJDBC {
 		else {
 			throw new IllegalStateException("Connection cannot be null!");
 		}
+		System.out.println("none found");
 		return null;
 	}
 	
