@@ -1,10 +1,9 @@
 package com.server.net;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +34,7 @@ public class LoginController {
 	//@GetMapping(path="/login", produces=MediaType.TEXT_PLAIN_VALUE)
 	@PostMapping(path="/login")
 	@RequestMapping(value="/login", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void login(@RequestBody ObjectNode json, HttpServletResponse response) {
+	public ResponseEntity<String> login(@RequestBody ObjectNode json) {
 		System.out.println("logging in...");
 		String email = json.get("email").asText();
 		String password = json.get("password").asText();
@@ -53,18 +52,17 @@ public class LoginController {
 			if(email.equals(dbEmail) && password.equals(dbPassword)) {
 				//Accepts login here
 				System.out.println("login accepted");
-				response.setStatus(HttpServletResponse.SC_ACCEPTED);
-				try {
-					response.sendRedirect("/dashboard");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				//String username = database.getValue(email, "username");
+
+		        System.out.println("redirecting...");
+		       
+		        return ResponseEntity.created(URI.create(String.format("/login/error=%s", "0"))).body("\"{\'err\':\'0\'}\"");
+		        //return "redirect:dashboard";
 			}
 		}
-		
+		//response.sendRedirect("http://localhost:3000/login");
 		System.out.println("Invalid user/pass");
-		
+		return null;
 		//We assume the database values are not equal to the input values
 		//Send them a message regarding an invalid attempt
 	}

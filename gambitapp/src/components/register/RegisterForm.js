@@ -9,7 +9,7 @@ export class DashboardForm extends Component {
         return (
             <Container>
             <Row>
-                <h1>Dashboard</h1>
+                <h1>Sign Up</h1>
             </Row>
             <Row className="d-flex justify-content-center">
                 <Form className="form__login u-center-text" action="@{/login}" method="post">
