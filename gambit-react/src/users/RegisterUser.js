@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
-export default function AddUser() {
+export default function RegisterUser() {
 
     let navigate = useNavigate();
 
@@ -12,10 +12,11 @@ export default function AddUser() {
         lastName:"",
         username:"",
         password:"",
+        photos:"",
 
     })
 
-    const{email, firstName, lastName, username, password}=user;
+    const{email, firstName, lastName, username, password, photos}=user;
 
     const onInputChange= (e) => {
         setUser({...user,[e.target.name]:e.target.value})
@@ -93,8 +94,20 @@ export default function AddUser() {
                             value={password}
                             onChange={(e) => onInputChange(e)}/>
                     </div>
+                    <div className="mb-3">
+                        <label htmlFor="Password" className="form-label">
+                            Photos:
+                        </label>
+                        <input
+                            type={"file"}
+                            className="form-control"
+                            name="photos"
+                            value={photos}
+                            accept="image/png, image/jpeg"
+                            />
+                    </div>
                     <button type="submit" className="btn btn-outline-success">Submit</button>
-                    <Link className="btn btn-outline-danger mx-2" to="/">Cancel</Link>
+                    <Link className="btn btn-outline-danger mx-2" to="/login">Cancel</Link>
                 </form>
             </div>
         </div>

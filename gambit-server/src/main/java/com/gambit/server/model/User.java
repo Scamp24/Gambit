@@ -15,6 +15,8 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String password;
+	
+	private String photos;
 
 	public Long getId() {
 		return id;
@@ -51,6 +53,12 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String photos) {
+		this.photos = photos;
 	}
 	
 	
