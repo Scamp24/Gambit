@@ -18,3 +18,6 @@
 *.zip
 *.tar.gz
 *.rar
+
+#spring application file
+*.properties
