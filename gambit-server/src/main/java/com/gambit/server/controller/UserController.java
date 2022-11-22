@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +29,24 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@PostMapping("/user")
+	@PostMapping("/upload")
+	String upload(@RequestParam("image") MultipartFile multipartFile) {
+		System.out.println("running!!!!!");
+		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    	//newUser.setPhotos(fileName);
+    	String uploadDir = "user-photos/" + 1;
+    	try {
+			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return "ok";
+		//return userRepository.save(newUser);
+	}
+	
+	@PostMapping(value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	User newUser(@RequestBody User newUser, @RequestParam("image") MultipartFile multipartFile) {
+		System.out.println("running!!!!!");
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     	newUser.setPhotos(fileName);
     	String uploadDir = "user-photos/" + newUser.getId();
