@@ -44,17 +44,8 @@ public class UserController {
 		//return userRepository.save(newUser);
 	}
 	
-	@PostMapping(value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	User newUser(@RequestBody User newUser, @RequestParam("image") MultipartFile multipartFile) {
-		System.out.println("running!!!!!");
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    	newUser.setPhotos(fileName);
-    	String uploadDir = "user-photos/" + newUser.getId();
-    	try {
-			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	@PostMapping("/user")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+	User newUser(@RequestBody User newUser) {
 		return userRepository.save(newUser);
 	}
 

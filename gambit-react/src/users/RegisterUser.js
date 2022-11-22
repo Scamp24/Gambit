@@ -33,7 +33,7 @@ export default function RegisterUser() {
             <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
                 <h2 className="text-center m-4">Register User</h2>
 
-                <form method="POST" enctype="multipart/form-data" action="/" onSubmit={(e) => onSubmit(e)}>
+                <form method="POST" onSubmit={(e) => onSubmit(e)}>
                     <div className="mb-3">
                         <label htmlFor="Email" className="form-label">
                             E-mail
@@ -98,13 +98,6 @@ export default function RegisterUser() {
                         <label htmlFor="Password" className="form-label">
                             Photos:
                         </label>
-
-                        <input 
-                        type={"file"} 
-                        id="img" 
-                        name="photos" 
-                        accept="image/*"
-                        />
 
                     </div>
                     <button type="submit" className="btn btn-outline-success">Submit</button>
