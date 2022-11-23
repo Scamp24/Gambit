@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams  } from "react-router-dom";
+import DashMenu from "../layout/DashMenu";
 
 export default function EditUser() {
 
@@ -14,10 +15,10 @@ export default function EditUser() {
         lastName:"",
         username:"",
         password:"",
-
+        photo:""
     })
 
-    const{email, firstName, lastName, username, password}=user;
+    const{email, firstName, lastName, username, password, photo}=user;
 
     const onInputChange= (e) => {
         setUser({...user,[e.target.name]:e.target.value})
@@ -29,19 +30,22 @@ export default function EditUser() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post(`http://localhost:8080/user/${id}`, user);
-        navigate("/");
+        await axios.put(`http://localhost:8080/edituser/${id}`, user);
+        navigate("/dashboard/" + id);
     };
 
     const loadUser = async () => {
         const result = await axios.get(`http://localhost:8080/user/${id}`);
         setUser(result.data);
     }
+    console.log(window.location.pathname);
 
     return <div className="container">
         <div className="row">
-            <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
+            <DashMenu/>
+            <div className="col-md-8 center-block offset-md-2 border rounded p-3 mt-2 shadow">
                 <h2 className="text-center m-4">Edit User</h2>
+                <a href=""><img src="./../assets/blank_profile_pic.png" alt="Avatar" className="w-50 border border-primary rounded-circle"/> </a>
 
                 <form onSubmit={(e) => onSubmit(e)}>
                     <div className="mb-3">
@@ -104,8 +108,8 @@ export default function EditUser() {
                             value={password}
                             onChange={(e) => onInputChange(e)}/>
                     </div>
-                    <button type="submit" className="btn btn-outline-success">Submit</button>
-                    <Link className="btn btn-outline-danger mx-2" to="/">Cancel</Link>
+                    <button type="submit" className="btn btn-outline-success">Save</button>
+                    <Link className="btn btn-outline-danger mx-2" to={'/dashboard/' + id}>Cancel</Link>
                 </form>
             </div>
         </div>

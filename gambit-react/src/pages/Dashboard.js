@@ -8,6 +8,7 @@ export default function Dashboard() {
     const [users, setUsers] = useState([]);
 
     const {id} = useParams();
+
     useEffect(()=>{
         loadUsers();
     }, []);
@@ -16,11 +17,6 @@ export default function Dashboard() {
         const result = await axios.get("http://localhost:8080/users");
         setUsers(result.data);
     };
-
-    const deleteUser = async (id) => {
-        await axios.delete(`http://localhost:8080/user/${id}`);
-        loadUsers();
-    }
 
     return(
         <div className='contaner'>

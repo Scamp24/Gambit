@@ -8,9 +8,6 @@ export default function Login() {
 
     const [user, setUser]=useState({
         email:"",
-        firstName:"",
-        lastName:"",
-        username:"",
         password:"",
 
     })
@@ -29,7 +26,18 @@ export default function Login() {
 
             if(response.data.login_error == '0') {
                 console.log("Login success!");
-                navigate("/dashboard");
+
+                axios.get(`http://localhost:8080/fetchid/${user.email}`)
+                .then(response => {
+                    console.log(response.data);
+
+                    /*navigate.push({
+                        pathname: '/dashboard',
+                        id: response.data // your data array of objects
+                    })*/
+                    navigate(`/dashboard/${response.data}`);
+                })
+            
             }
             else {
                 document.getElementById("error_msg").className = "";

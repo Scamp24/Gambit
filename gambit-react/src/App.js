@@ -3,6 +3,7 @@ import './App.css';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './layout/Navbar';
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import RegisterUser from "./users/RegisterUser";
 import ViewUser from "./users/ViewUser";
@@ -20,7 +21,8 @@ function App() {
           <Route exact path="/register" element={<RegisterUser />} />
           <Route exact path="/edituser/:id" element={<EditUser/>}/>
           <Route exact path="/viewuser/:id" element={<ViewUser/>}/>
-          <Route exact path="/dashboard" element={<Dashboard/>}/>
+          <Route exact path="/dashboard/:id" element={<Dashboard/>}/>
+          <Route exact path="/Home" element={<Home/>}/>
         </Routes>
       </Router>
     </div>
