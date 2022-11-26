@@ -28,7 +28,7 @@ public class User {
 	private int matchPosition;
 	private int matchSize;
 	
-	@Lob
+	/*@Lob
 	private Byte[] image;
 
 	public Byte[] getImage() {
@@ -37,8 +37,8 @@ public class User {
 
 	public void setImage(Byte[] image) {
 		this.image = image;
-	}
-
+	}*/
+	
 	public Long getId() {
 		return id;
 	}

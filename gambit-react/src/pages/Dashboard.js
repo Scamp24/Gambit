@@ -6,24 +6,34 @@ import DashMenu from "../layout/DashMenu";
 export default function Dashboard() {
 
     var index = 0;
-    const [user, setUser]=useState([]);
-    const{email, firstName, lastName, username, password, photo} = user;
+    const [user, setUser]=useState([{
+        email:"",
+        firstName:"",
+        lastName:"",
+        username:"",
+        display:"\"display:none;\""
+    }]);
+    const{email, firstName, lastName, username, password, photo, display} = user;
     const {id} = useParams();
+
+    const loadData = async () => {
+        const result = await axios.get("http://localhost:8080/dashboard/" + id);
+        user.push(result.data);
+        setUser(result.data);
+        //user.map(u => console.log("user: --", u[0]));
+        console.log("data:", result.data);
+
+        for(let i = 0; i < user.length; i++) {
+            if(i == 0)
+                user.display = "";
+        }
+
+        //console.log("display:", user.display);
+    };
 
     useEffect(()=>{
         loadData();
     }, []);
-
-    const loadData = async () => {
-        const result = await axios.get("http://localhost:8080/candidates/" + id);
-        //setUser({user, [1]:result.data})
-        //setUser(result.data);
-        user.push(result.data);
-        //user.map(u => console.log("user: --", u[0]));
-        console.log("data:", result.data);
-    };
-
-
 
     return(
         <div className='contaner'>
@@ -32,15 +42,14 @@ export default function Dashboard() {
                 <div className="py-4">
                 <div className="card">
                         <div className="card-header" >
-                            Details of user id: {user.map((i, candidate) => {
-                               
-                                    return <p key={i}>{candidate.email}</p>;
+                            {}
+                            Details of user id: <p>{id}</p>
                             
-                            })}
+                            <p key={user.id} >{user.pop().id}</p>
                             <ul className="list-group list-group-flush">
 
                                 <li className="list-group-item">
-                                    <b>First Name:</b>
+                                    <b>First Name:</b>{user.firstName}
                                 </li>
 
                             </ul>

@@ -1,6 +1,7 @@
 package com.gambit.server.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class UserController {
     			byteObjects[i++] = b;
     		}
     		user.setId(id);
-    		user.setImage(byteObjects);
+    		//user.setImage(byteObjects);
     		
     		userRepository.save(user);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
@@ -60,8 +61,11 @@ public class UserController {
 	@PostMapping("/register")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
 	User newUser(@RequestBody User newUser) {
 		User found = userRepository.findByEmail(newUser.getEmail());
-		if(found == null)
+		if(found != null) {
+			System.err.println("User exists account could not be created! email: " + newUser.getEmail() + " email found: " + found.getEmail());
 			return null;
+		}
+		System.out.println("Successful Registration");
 		return userRepository.save(newUser);
 	}
 	
@@ -75,23 +79,26 @@ public class UserController {
 		return userRepository.findAll();
 	}
 	
-	@GetMapping("/candidates/{id}")
+	@GetMapping("/dashboard/{id}")
 	List<User> getCandidates(@PathVariable Long id) {
-		User user = userRepository.findById(id).get();
-		
-		User[] candidateList = new User[10];
-
+		User self = userRepository.findById(id).get();
+		int limit = 10;
 		List<User> allUsers = userRepository.findAll();
-		
+		List<User> candidates = new ArrayList<>();
+		System.out.println("all users size: " + allUsers.size());
 		int j = 0;
-		for(int i = 0; i < candidateList.length; i++) {
-			if(allUsers.size() < candidateList.length) {
+		for(int i = 0; i < limit; i++) {
+			if(i > limit || i >= allUsers.size() ) {
 				break;
 			}
-			candidateList[i] = allUsers.get(j++);
+			User candidate = allUsers.get(j++);
+			//System.out.println("Current candidate: " + candidate.getFirstName());
+			if(!self.equals(candidate)) {
+				candidate.setPassword("");
+				candidates.add(candidate);
+			}
 		}
-		//User candidates[] = user.generateCandidates();
-		return userRepository.findAll();
+		return candidates;
 	}
 
 	@GetMapping("/user/{id}")
