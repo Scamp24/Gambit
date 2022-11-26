@@ -62,7 +62,7 @@ public class UserController {
 	User newUser(@RequestBody User newUser) {
 		User found = userRepository.findByEmail(newUser.getEmail());
 		if(found == null)
-			return "Error: Account Exists";
+			return null;
 		return userRepository.save(newUser);
 	}
 	
