@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gambit.server.exception.UserNotFoundException;
 import com.gambit.server.model.User;
@@ -28,27 +30,32 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-
 	
-	@GetMapping("dashboard/{id}")
-	String populateCandidates() {
-		
-		return "";
-	}
-	
-	@PostMapping("/upload")
-	String upload(@RequestParam("image") MultipartFile multipartFile) {
-		System.out.println("running!!!!!");
+	@PostMapping(value = "/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	String upload(@RequestPart("file") MultipartFile multipartFile, @PathVariable Long id) {
 		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     	//newUser.setPhotos(fileName);
-    	String uploadDir = "user-photos/" + 1;
+		User user = userRepository.findById(id).get();
+		
+		user.setPhotos(fileName);
+		userRepository.save(user);
+    	String uploadDir = "user-photos/" + id;
     	try {
+    		/*Byte[] byteObjects = new Byte[multipartFile.getBytes().length];
+    		int i = 0;
+    		
+    		for(byte b : multipartFile.getBytes()) {
+    			byteObjects[i++] = b;
+    		}*/
+    		user.setId(id);
+    		//user.setImage(byteObjects);
+    		
+    		userRepository.save(user);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		} catch (IOException e) {
+	} catch (IOException e) {
 			e.printStackTrace();
 		}
     	return "ok";
-		//return userRepository.save(newUser);
 	}
 	
 	@PostMapping("/user")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -65,6 +72,25 @@ public class UserController {
 	List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
+	
+	@GetMapping("/candidates/{id}")
+	List<User> getCandidates(@PathVariable Long id) {
+		User user = userRepository.findById(id).get();
+		
+		User[] candidateList = new User[10];
+
+		List<User> allUsers = userRepository.findAll();
+		
+		int j = 0;
+		for(int i = 0; i < candidateList.length; i++) {
+			if(allUsers.size() < candidateList.length) {
+				break;
+			}
+			candidateList[i] = allUsers.get(j++);
+		}
+		//User candidates[] = user.generateCandidates();
+		return userRepository.findAll();
+	}
 
 	@GetMapping("/user/{id}")
 	User getUserById(@PathVariable Long id) {
@@ -72,8 +98,9 @@ public class UserController {
 	}
 
 	@PutMapping("/edituser/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
-    	return userRepository.findById(id)
+	ModelAndView updateUser(@RequestBody User newUser, @PathVariable Long id) {
+		ModelAndView mav = new ModelAndView("user");
+    	User selectedUser = userRepository.findById(id)
     			.map(user -> {
     				user.setEmail(newUser.getEmail());
     				user.setFirstName(newUser.getFirstName());
@@ -81,9 +108,10 @@ public class UserController {
     				user.setUsername(newUser.getUsername());
     				user.setPassword(newUser.getPassword());
     				user.setPhotos(newUser.getPhotos());
-    				
     				return userRepository.save(user);
     			}).orElseThrow(() -> new UserNotFoundException(id));
+    	mav.addObject("user", selectedUser);
+    	return mav;
     }
 
 	@PostMapping("/login")

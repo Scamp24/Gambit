@@ -15,7 +15,7 @@ export default function EditUser() {
         lastName:"",
         username:"",
         password:"",
-        photo:""
+        photo:"",
     })
 
     const{email, firstName, lastName, username, password, photo}=user;
@@ -24,28 +24,43 @@ export default function EditUser() {
         setUser({...user,[e.target.name]:e.target.value})
     };
 
-    useEffect(() => {
-        loadUser();
-    }, []);
-
     const onSubmit = async (e) => {
         e.preventDefault();
         await axios.put(`http://localhost:8080/edituser/${id}`, user);
         navigate("/dashboard/" + id);
     };
 
+    const loadImage = () => {
+        console.log("okay running load image");
+        let pic = user.image;
+        var pic_display = document.getElementById('pic_display');
+        console.log("pic: ", pic);
+        if(pic.length > 0) {
+
+            var blob = new Blob([pic], { type: "image/**"});
+            let blobUrl = URL.createObjectURL(blob);
+            pic_display.src = blobUrl;
+            console.log(blobUrl);
+        }
+    }
+
     const loadUser = async () => {
         const result = await axios.get(`http://localhost:8080/user/${id}`);
+        console.log("result data: ", result.data);
         setUser(result.data);
+        user.image = result.data.image;
+        console.log("img path:", user.image);
+        loadImage();
     }
-    console.log(window.location.pathname);
 
-    return <div className="container">
+    return <div className="container" onLoad={loadUser}>
         <div className="row">
             <DashMenu/>
             <div className="col-md-8 center-block offset-md-2 border rounded p-3 mt-2 shadow">
                 <h2 className="text-center m-4">Edit User</h2>
-                <a href=""><img src="./../assets/blank_profile_pic.png" alt="Avatar" className="w-50 border border-primary rounded-circle"/> </a>
+                <a className="link-unstyled" href={'/upload/' + id}>
+                    <img src="./../assets/blank_profile_pic.png" alt="Avatar" className="w-50 border border-primary rounded-circle" id="pic_display"/> 
+                </a>
 
                 <form onSubmit={(e) => onSubmit(e)}>
                     <div className="mb-3">

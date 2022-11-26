@@ -3,15 +3,16 @@ package com.gambit.server.controller;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
 public class ModelViewControllerConfig implements WebMvcConfigurer {
 
+	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		System.out.println("resource handlersare running");
 		exposeDirectory("user-photos", registry);
 	}
 	
@@ -21,12 +22,8 @@ public class ModelViewControllerConfig implements WebMvcConfigurer {
 		
 		if(dirName.startsWith("../"))
 			dirName = dirName.replace("../", "");
-		
+		System.out.println("registry added!");
 		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
 	}
 	
-	@Bean
-	public MultipartResolver multipartResolver() {
-	    return new CommonsMultipartResolver();
-	}
 }

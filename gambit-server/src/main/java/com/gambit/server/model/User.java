@@ -1,5 +1,7 @@
 package com.gambit.server.model;
 
+import java.util.Arrays;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,6 +22,22 @@ public class User {
 
 	private String photo;
 	private String biography;
+	
+	private int[] candidates;
+	private Long[] matchList;
+	private int matchPosition;
+	private int matchSize;
+	
+	//@Lob
+	//private Byte[] image;
+
+	/*public Byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(Byte[] image) {
+		this.image = image;
+	}*/
 
 	public Long getId() {
 		return id;
@@ -90,6 +108,32 @@ public class User {
 
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+
+	public Long[] getMatchedList() {
+		return matchList;
+	}
+
+	public void addMatch(Long userId) {
+		if(matchSize < (matchSize+1)) {
+			this.matchSize += 5;
+			matchList = Arrays.copyOf(matchList, matchSize);
+		}
+		matchList[++matchPosition] = userId;
+	}
+	
+	public void removeMatch(Long userId) {
+		for(int index = 0; index < matchList.length; index++) {
+			if(matchList[index] == matchList[matchPosition]) {
+				matchList[index] = 0L;
+				matchPosition--;
+				matchSize--;
+			}
+			
+			if(matchList.length - 5 > matchSize) {
+				matchList = Arrays.copyOf(matchList, matchSize);
+			}
+		}
 	}
 
 }

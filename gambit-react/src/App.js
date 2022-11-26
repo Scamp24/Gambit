@@ -9,6 +9,7 @@ import RegisterUser from "./users/RegisterUser";
 import ViewUser from "./users/ViewUser";
 import EditUser from "./users/EditUser";
 import Dashboard from './pages/Dashboard';
+import UploadImageUser from './users/UploadImageUser';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/edituser/:id" element={<EditUser/>}/>
           <Route exact path="/viewuser/:id" element={<ViewUser/>}/>
           <Route exact path="/dashboard/:id" element={<Dashboard/>}/>
+          <Route exact path="/upload/:id" element={<UploadImageUser/>}/>
           <Route exact path="/Home" element={<Home/>}/>
         </Routes>
       </Router>
