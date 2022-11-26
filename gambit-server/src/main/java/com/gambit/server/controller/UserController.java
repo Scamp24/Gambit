@@ -58,8 +58,8 @@ public class UserController {
     	return "ok";
 	}
 	
-	@PostMapping("/user")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-	User newUser(@RequestBody User newUser, @RequestParam("image") MultipartFile multipartFile) {
+	@PostMapping("/register")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+	User newUser(@RequestBody User newUser) {
 		return userRepository.save(newUser);
 	}
 	
