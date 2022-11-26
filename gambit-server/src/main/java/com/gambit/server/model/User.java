@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.springframework.data.annotation.Transient;
 
@@ -23,21 +24,20 @@ public class User {
 	private String photo;
 	private String biography;
 	
-	private int[] candidates;
 	private Long[] matchList;
 	private int matchPosition;
 	private int matchSize;
 	
-	//@Lob
-	//private Byte[] image;
+	@Lob
+	private Byte[] image;
 
-	/*public Byte[] getImage() {
+	public Byte[] getImage() {
 		return image;
 	}
 
 	public void setImage(Byte[] image) {
 		this.image = image;
-	}*/
+	}
 
 	public Long getId() {
 		return id;

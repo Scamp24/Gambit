@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,14 +40,14 @@ public class UserController {
 		userRepository.save(user);
     	String uploadDir = "user-photos/" + id;
     	try {
-    		/*Byte[] byteObjects = new Byte[multipartFile.getBytes().length];
+    		Byte[] byteObjects = new Byte[multipartFile.getBytes().length];
     		int i = 0;
     		
     		for(byte b : multipartFile.getBytes()) {
     			byteObjects[i++] = b;
-    		}*/
+    		}
     		user.setId(id);
-    		//user.setImage(byteObjects);
+    		user.setImage(byteObjects);
     		
     		userRepository.save(user);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
