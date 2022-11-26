@@ -60,6 +60,9 @@ public class UserController {
 	
 	@PostMapping("/register")//value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE
 	User newUser(@RequestBody User newUser) {
+		User found = userRepository.findByEmail(newUser.getEmail());
+		if(found == null)
+			return "Error: Account Exists";
 		return userRepository.save(newUser);
 	}
 	
